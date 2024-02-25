@@ -2,7 +2,7 @@ import { useId } from "react";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { nanoid } from "nanoid";
-import { addContact } from "../../redux/contactsSlice";
+import { addContact } from "../../redux/operations";
 import { useDispatch } from "react-redux";
 
 const userSchema = Yup.object().shape({
@@ -10,7 +10,7 @@ const userSchema = Yup.object().shape({
     .required("Name is required")
     .min(3, "Minimum 3 characters")
     .max(50, "Maximum 50 characters"),
-  number: Yup.string()
+  phone: Yup.string()
     .required("Number is required")
     .min(3, "Minimum 3 characters")
     .max(50, "Maximum 50 characters")
@@ -19,23 +19,22 @@ const userSchema = Yup.object().shape({
 
 const initialValues = {
   name: '',
-  number: '',
+  phone: '',
 };
 
 export default function ContactForm () {
   const nameId = useId();
-  const numberId = useId();
+  const phoneId = useId();
   const dispatch = useDispatch();
 
-  const handleAddContact = (values, actions) => {
-    const newContact = {
-      id: nanoid(),
-      name: values.name,
-      number: values.number,
-    };
-    dispatch(addContact(newContact));
-    actions.resetForm();
+  const handleAddContact = (values, { resetForm }) => {
+  const newContact = {
+    id: nanoid(),
+    name: values.name,
+    phone: values.phone,
   };
+  dispatch(addContact(newContact)).then(() => resetForm());
+};
 
   return (
     <div>
@@ -59,14 +58,14 @@ export default function ContactForm () {
            </div>
 
           <div>
-            <label htmlFor={numberId}>Number</label>
+            <label htmlFor={phoneId}>Number</label>
             <Field
-              type="number"
-              name="number"
-              id={numberId}
+              type="tel"
+              name="phone"
+              id={phoneId}
             />       
             <ErrorMessage
-              name="number"
+              name="phone"
               component="span"
             />
           </div>

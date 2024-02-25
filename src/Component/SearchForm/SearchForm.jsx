@@ -1,6 +1,7 @@
 import { useId } from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { setFilter } from "../../redux/filterSlice";
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilter } from '../../redux/filterSlice';
+import { selectFilter } from '../../redux/selectors';
 
 const SearchForm = () => {
   const searchId = useId();
@@ -9,7 +10,9 @@ const SearchForm = () => {
   const handleFilterChange = (e) => {
     dispatch(setFilter(e.target.value.trim()));
   };
-  const value = useSelector(state => state.filters);
+
+  const value = useSelector(selectFilter).text;
+
   return (
     <div>
       <label htmlFor={searchId}>Find contacts by name</label>

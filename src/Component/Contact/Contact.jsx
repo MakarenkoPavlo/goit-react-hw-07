@@ -1,9 +1,10 @@
 import { useDispatch } from "react-redux";
-import { deleteContact } from "../../redux/contactsSlice";
+import { deleteContact } from "../../redux/operations";
 
 export const Contact = ({ contact }) => {
-  const { id, name, number } = contact;
+  const { id, name, phone } = contact;
   const dispatch = useDispatch();
+
   const handleDeleteContact = () => {
     dispatch(deleteContact(id));
   };
@@ -14,7 +15,7 @@ export const Contact = ({ contact }) => {
           <p>{name}</p>
         </div>
         <div>
-           <p>{number}</p>
+           <p>{phone}</p>
         </div>
       </div>
 
